@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-import google.generativeai as genai
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import json
 
+from .rag_service import get_rag_service
+
 # Configure Gemini AI
-GEMINI_API_KEY = "AIzaSyBfy5Ii-qZ6FrFKfYqzIlLgn55DF3ZX7lI"
-genai.configure(api_key=GEMINI_API_KEY)
+GEMINI_API_KEY = "AIzaSyC1FVElNBndjCdECVbr-14KZNeoJhapVaQ"
 
 @api_view(['POST'])
 def ai_chat(request):
     """
-    API endpoint for AI chat using Gemini (no history storage)
+    API endpoint for AI chat using RAG (Retrieval-Augmented Generation)
+    with military psychological counseling knowledge base
     """
     try:
         data = json.loads(request.body)
@@ -24,27 +25,11 @@ def ai_chat(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # Get RAG service instance
+        rag_service = get_rag_service(GEMINI_API_KEY)
         
-        # Create context for AI - instruct AI to respond in Vietnamese
-        context = """
-        Ban la mot tro ly AI thong minh va huu ich. Hay luon tra loi bang tieng Viet. 
-        Ban co the giup nguoi dung voi nhieu van de khac nhau nhu:
-        - Tra loi cau hoi chung
-        - Giai thich kien thuc
-        - Ho tro giai quyet van de
-        - Tu van va dua ra goi y
-        
-        Hay tra loi mot cach than thien, chinh xac va huu ich.
-        """
-        
-        # Combine context with user message
-        full_prompt = f"{context}\n\nCau hoi cua nguoi dung: {user_message}"
-        
-        # Send message to Gemini AI
-        response = model.generate_content(full_prompt)
-        ai_response = response.text
+        # Get counseling response using RAG
+        ai_response = rag_service.get_counseling_response(user_message)
         
         # Return response directly (no database storage)
         return Response({
