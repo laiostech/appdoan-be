@@ -1,0 +1,73 @@
+# Virtual environment
+.venv
+venv
+env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# Static files (will be collected in container)
+staticfiles/
+static/
+
+# Media files
+media/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Scripts (not needed in container - but keep docker-entrypoint.sh)
+deploy.sh
+setup.sh
+run_production.sh
+quick_deploy.sh
+setup_ubuntu.sh
+docker_test.sh
+docker_deploy.sh
+quick_fix.sh
+fix_docker_build.sh
+*.bat
+
+# Keep docker-entrypoint.sh - it's needed for the container
+
+# Documentation
+*.md
+README*
+ADMIN_SETUP_GUIDE.md
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/ 

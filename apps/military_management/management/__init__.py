@@ -1,0 +1,1 @@
+# Management commands for military_management app 
